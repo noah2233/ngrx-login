@@ -1,4 +1,7 @@
+import { createReducer, on } from '@ngrx/store';
+
 import { User } from '../../models/user';
+import * as AuthAction from '../actions/auth.actions';
 
 export interface State {
   // is a user authenticated?
@@ -14,3 +17,24 @@ export const initialState: State = {
   user: null,
   errorMessage: null,
 };
+
+export const reducer = createReducer(
+  initialState,
+  on(AuthAction.loginSuccess, (state, action): State => {
+    return {
+      ...state,
+      isAuthenticated: true,
+      user: {
+        token: action.token,
+        email: action.email,
+      },
+      errorMessage: null,
+    };
+  }),
+  on(AuthAction.loginFailure, (state, action): State => {
+    return {
+      ...state,
+      errorMessage: 'Incorrect email and/or password.',
+    };
+  })
+);
