@@ -3,7 +3,9 @@ import { Store } from '@ngrx/store';
 
 import { User } from '../../models/user';
 import { AppState } from '../../store/app.states';
+import { getAuthState } from '../../store/selectors/auth.selectors';
 import { signup } from '../../store/actions/auth.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,10 +14,18 @@ import { signup } from '../../store/actions/auth.actions';
 })
 export class SignUpComponent implements OnInit {
   user: User = new User();
+  getState: Observable<any>;
+  errorMessage: string | null = null;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>) {
+    this.getState = this.store.select(getAuthState);
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getState.subscribe((state) => {
+      this.errorMessage = state.errorMessage;
+    });
+  }
 
   onSubmit(): void {
     const payload = {
