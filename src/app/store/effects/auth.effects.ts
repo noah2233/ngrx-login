@@ -39,9 +39,29 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  loginFailure$ = createEffect(
+  signup$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(AuthActionTypes.signup),
+      mergeMap((action) =>
+        this.authService.signUp(action.email, action.password).pipe(
+          map((user) => {
+            return AuthActionTypes.signupSuccess({ token: user.token, email: action.email });
+          }),
+          catchError((error) => of(AuthActionTypes.signupFailure({ error })))
+        )
+      )
+    );
+  });
+
+  signupSuccess$ = createEffect(
     () => {
-      return this.actions.pipe(ofType(AuthActionTypes.loginFailure));
+      return this.actions.pipe(
+        ofType(AuthActionTypes.loginSuccess),
+        tap((user) => {
+          localStorage.setItem('token', user.token);
+          this.router.navigateByUrl('/');
+        })
+      );
     },
     { dispatch: false }
   );

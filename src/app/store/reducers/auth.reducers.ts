@@ -36,5 +36,22 @@ export const reducer = createReducer(
       ...state,
       errorMessage: 'Incorrect email and/or password.',
     };
+  }),
+  on(AuthAction.signupSuccess, (state, action): State => {
+    return {
+      ...state,
+      isAuthenticated: true,
+      user: {
+        token: action.token,
+        email: action.email,
+      },
+      errorMessage: null,
+    };
+  }),
+  on(AuthAction.signupFailure, (state, action): State => {
+    return {
+      ...state,
+      errorMessage: 'That email is already in use.',
+    };
   })
 );
