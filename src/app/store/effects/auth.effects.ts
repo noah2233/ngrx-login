@@ -32,7 +32,7 @@ export class AuthEffects {
         ofType(AuthActionTypes.loginSuccess),
         tap((user) => {
           localStorage.setItem('token', user.token);
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/');
         })
       );
     },
