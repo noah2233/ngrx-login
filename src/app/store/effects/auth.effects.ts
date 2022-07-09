@@ -56,7 +56,7 @@ export class AuthEffects {
   signupSuccess$ = createEffect(
     () => {
       return this.actions.pipe(
-        ofType(AuthActionTypes.loginSuccess),
+        ofType(AuthActionTypes.signupSuccess),
         tap((user) => {
           localStorage.setItem('token', user.token);
           this.router.navigateByUrl('/');
