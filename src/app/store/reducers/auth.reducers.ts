@@ -53,5 +53,8 @@ export const reducer = createReducer(
       ...state,
       errorMessage: 'That email is already in use.',
     };
+  }),
+  on(AuthAction.logout, (): State => {
+    return initialState;
   })
 );

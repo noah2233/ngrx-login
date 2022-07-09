@@ -7,3 +7,5 @@ export const loginFailure = createAction('[Auth] Login Fail', props<{ error: any
 export const signup = createAction('[Auth] Signup', props<{ email: string; password: string }>());
 export const signupSuccess = createAction('[Auth] Signup Success', props<{ token: any; email: string }>());
 export const signupFailure = createAction('[Auth] Signup Fail', props<{ error: any }>());
+
+export const logout = createAction('[Auth] Logout');
